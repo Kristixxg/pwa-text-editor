@@ -23,20 +23,23 @@ module.exports = () => {
         title:'PWA Text Editor'
       }),
       new InjectManifest({
-        swSrc: './src/sw.js',
-        swDest: 'service-worker.js',
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
       }),
+    // Creates a manifest.json file.
     new WebpackPwaManifest({
-      name: 'TODOs',
-      short_name: 'TODOs',
-      description: 'Keep track of important tasks!',
-      background_color: '#7eb4e2',
-      theme_color: '#7eb4e2',
-      start_url: './',
-      publicPath: './',
+      fingerprints: false,
+      inject: true,
+      name: 'PWA Text Editor',
+      short_name: 'Text Editor',
+      description: 'Best text editor ever!',
+      background_color: '#225ca3',
+      theme_color: '#225ca3',
+      start_url: '/',
+      publicPath: '/',
       icons: [
         {
-          src: path.resolve('assets/images/logo.png'),
+          src: path.resolve('src/images/logo.png'),
           sizes: [96, 128, 192, 256, 384, 512],
           destination: path.join('assets', 'icons'),
         },
@@ -45,8 +48,24 @@ module.exports = () => {
     ],
 
     module: {
-      rules: [
-        
+       // CSS loaders
+       rules: [
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          // We use babel-loader in order to use ES6.
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+            },
+          },
+        },
       ],
     },
   };
