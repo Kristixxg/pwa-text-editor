@@ -28,8 +28,8 @@ module.exports = () => {
       }),
     // Creates a manifest.json file.
     new WebpackPwaManifest({
-      fingerprints: false,
-      inject: true,
+      // fingerprints: false,
+      // inject: true,
       name: 'PWA Text Editor',
       short_name: 'Text Editor',
       description: 'Best text editor ever!',
@@ -40,7 +40,7 @@ module.exports = () => {
       icons: [
         {
           src: path.resolve('src/images/logo.png'),
-          sizes: [96, 128, 192, 256, 384, 512],
+          sizes: [96, 128, 192, 256, 384, 512, 1280],
           destination: path.join('assets', 'icons'),
         },
       ],
@@ -53,6 +53,10 @@ module.exports = () => {
         {
           test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
+          type: 'asset/resource',
         },
         {
           test: /\.m?js$/,
